@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database - SomalianFraud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◉</span>
+                <span class="logo-text">SomalianFraud</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Map</a>
+                <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+                <a href="database.html" class="nav-link active">Database</a>
+                <a href="donations.html" class="nav-link">Donations</a>
+                <span class="nav-ca">CA: Coming Soon...</span>
+                <a href="https://x.com/somalianfraud" target="_blank" class="nav-icon" title="Follow on X">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Database Header -->
+    <section class="page-header">
+        <h1 class="page-title">Provider Database</h1>
+        <p class="page-subtitle">Search <span id="db-count">113,260</span> healthcare providers</p>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" id="search-input" class="search-input" placeholder="Search by name, NPI, or location...">
+                <button class="search-button" onclick="performSearch()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="filter-row">
+                <select id="state-filter" class="filter-select">
+                    <option value="">All States</option>
+                </select>
+                <select id="type-filter" class="filter-select">
+                    <option value="">All Provider Types</option>
+                    <option value="physician">Physician</option>
+                    <option value="nurse">Nurse Practitioner</option>
+                    <option value="pharmacy">Pharmacy</option>
+                    <option value="clinic">Clinic/Facility</option>
+                    <option value="dme">DME Supplier</option>
+                    <option value="home_health">Home Health</option>
+                    <option value="mental_health">Mental Health</option>
+                </select>
+                <select id="fraud-filter" class="filter-select">
+                    <option value="">Any Fraud Amount</option>
+                    <option value="10000">$10K+</option>
+                    <option value="50000">$50K+</option>
+                    <option value="100000">$100K+</option>
+                    <option value="500000">$500K+</option>
+                    <option value="1000000">$1M+</option>
+                </select>
+                <select id="status-filter" class="filter-select">
+                    <option value="">All Statuses</option>
+                    <option value="excluded">Excluded</option>
+                    <option value="sanctioned">Sanctioned</option>
+                    <option value="under_investigation">Under Investigation</option>
+                    <option value="settled">Settled</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+        <div class="results-header">
+            <span id="results-count">Showing 0 results</span>
+            <div class="results-view">
+                <button class="view-btn active" data-view="table" onclick="setView('table')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" onclick="setView('list')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table View -->
+        <div id="table-view" class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Provider Name</th>
+                        <th>NPI</th>
+                        <th>Type</th>
+                        <th>State</th>
+                        <th>Fraud Amount</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="providers-table">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="page-btn" id="prev-btn" onclick="changePage(-1)" disabled>← Previous</button>
+            <span class="page-info" id="page-info">Page 1 of 1</span>
+            <button class="page-btn" id="next-btn" onclick="changePage(1)">Next →</button>
+        </div>
+    </section>
+
+    <!-- Provider Detail Modal -->
+    <div id="provider-modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-name">Provider Name</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">NPI Number</span>
+                        <span class="detail-value" id="modal-npi">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Provider Type</span>
+                        <span class="detail-value" id="modal-type">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">State</span>
+                        <span class="detail-value" id="modal-state">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">City</span>
+                        <span class="detail-value" id="modal-city">-</span>
+                    </div>
+                    <div class="detail-item highlight">
+                        <span class="detail-label">Fraud Amount</span>
+                        <span class="detail-value fraud-amount" id="modal-fraud">$0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value" id="modal-status">-</span>
+                    </div>
+                    <div class="detail-item full-width">
+                        <span class="detail-label">Violation Description</span>
+                        <p class="detail-value" id="modal-violation">-</p>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Date of Action</span>
+                        <span class="detail-value" id="modal-date">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Source</span>
+                        <span class="detail-value" id="modal-source">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-note">Data sourced from state licensing databases and court records</p>
+        <p class="footer-contact">If you have information regarding ongoing fraud, reach out on X <a href="https://x.com/somalianfraud" target="_blank">@somalianfraud</a></p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/database.js"></script>
+</body>
+</html>
+

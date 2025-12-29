@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomalianFraud - Healthcare Provider Fraud Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◉</span>
+                <span class="logo-text">SomalianFraud</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Map</a>
+                <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+                <a href="database.html" class="nav-link">Database</a>
+                <a href="donations.html" class="nav-link">Donations</a>
+                <span class="nav-ca">CA: Coming Soon...</span>
+                <a href="https://x.com/somalianfraud" target="_blank" class="nav-icon" title="Follow on X">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Stats -->
+    <section class="hero">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" data-target="35010000" data-prefix="$" data-suffix="">$0</div>
+                <div class="stat-label">Total fraud tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="113260" data-prefix="" data-suffix="">0</div>
+                <div class="stat-label">Providers in database</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="15" data-prefix="" data-suffix="">0</div>
+                <div class="stat-label">States covered</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map -->
+    <section class="map-section">
+        <h2 class="section-title">Click a state to view providers</h2>
+        <div class="map-legend">
+            <div class="legend-item">
+                <span class="legend-color green"></span>
+                <span>Green = fraud data available</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color blue"></span>
+                <span>Blue = providers tracked</span>
+            </div>
+        </div>
+        <div class="map-container">
+            <svg id="us-map" viewBox="0 0 959 593"></svg>
+        </div>
+        
+        <!-- State Info Popup -->
+        <div id="state-popup" class="state-popup hidden">
+            <div class="popup-header">
+                <h3 id="popup-state-name">State Name</h3>
+                <button class="popup-close" onclick="closePopup()">×</button>
+            </div>
+            <div class="popup-content">
+                <div class="popup-stat">
+                    <span class="popup-value" id="popup-fraud-amount">$0</span>
+                    <span class="popup-label">Total Fraud</span>
+                </div>
+                <div class="popup-stat">
+                    <span class="popup-value" id="popup-provider-count">0</span>
+                    <span class="popup-label">Providers</span>
+                </div>
+            </div>
+            <a id="popup-link" href="#" class="popup-button">View Providers →</a>
+        </div>
+    </section>
+
+    <!-- Top States Preview -->
+    <section class="preview-section">
+        <h2 class="section-title">Top States by Fraud Amount</h2>
+        <div class="preview-list" id="top-states-preview">
+            <!-- Populated by JS -->
+        </div>
+        <div class="preview-links">
+            <a href="leaderboard.html" class="link-button">View full leaderboard →</a>
+            <a href="database.html" class="link-button">Search database →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-note">Data sourced from state licensing databases and court records</p>
+        <p class="footer-contact">If you have information regarding ongoing fraud, reach out on X <a href="https://x.com/somalianfraud" target="_blank">@somalianfraud</a></p>
+    </footer>
+
+    <!-- D3.js and TopoJSON for map rendering -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    
+    <script src="js/data.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+

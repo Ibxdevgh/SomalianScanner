@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - SomalianFraud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">◉</span>
+                <span class="logo-text">SomalianFraud</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Map</a>
+                <a href="leaderboard.html" class="nav-link active">Leaderboard</a>
+                <a href="database.html" class="nav-link">Database</a>
+                <a href="donations.html" class="nav-link">Donations</a>
+                <span class="nav-ca">CA: Coming Soon...</span>
+                <a href="https://x.com/somalianfraud" target="_blank" class="nav-icon" title="Follow on X">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Leaderboard Header -->
+    <section class="page-header">
+        <h1 class="page-title">State Leaderboard</h1>
+        <p class="page-subtitle">Rankings by total fraud amount tracked</p>
+    </section>
+
+    <!-- Leaderboard Controls -->
+    <section class="controls-section">
+        <div class="controls-container">
+            <div class="sort-controls">
+                <label>Sort by:</label>
+                <select id="sort-select" class="control-select">
+                    <option value="fraud-desc">Fraud Amount (High to Low)</option>
+                    <option value="fraud-asc">Fraud Amount (Low to High)</option>
+                    <option value="providers-desc">Providers (High to Low)</option>
+                    <option value="providers-asc">Providers (Low to High)</option>
+                    <option value="name-asc">State Name (A-Z)</option>
+                </select>
+            </div>
+            <div class="filter-controls">
+                <label>Min Fraud:</label>
+                <select id="min-fraud-select" class="control-select">
+                    <option value="0">All</option>
+                    <option value="100000">$100K+</option>
+                    <option value="1000000">$1M+</option>
+                    <option value="5000000">$5M+</option>
+                    <option value="10000000">$10M+</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Table -->
+    <section class="leaderboard-section">
+        <div class="leaderboard-container">
+            <div class="leaderboard-header">
+                <span class="lb-col rank">Rank</span>
+                <span class="lb-col state">State</span>
+                <span class="lb-col amount">Fraud Amount</span>
+                <span class="lb-col providers">Providers</span>
+                <span class="lb-col action">Action</span>
+            </div>
+            <div id="leaderboard-body" class="leaderboard-body">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Stats -->
+    <section class="summary-section">
+        <div class="summary-container">
+            <div class="summary-card">
+                <span class="summary-value" id="total-fraud">$0</span>
+                <span class="summary-label">Total Fraud</span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-value" id="total-providers">0</span>
+                <span class="summary-label">Total Providers</span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-value" id="avg-per-state">$0</span>
+                <span class="summary-label">Avg per State</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-note">Data sourced from state licensing databases and court records</p>
+        <p class="footer-contact">If you have information regarding ongoing fraud, reach out on X <a href="https://x.com/somalianfraud" target="_blank">@somalianfraud</a></p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/leaderboard.js"></script>
+</body>
+</html>
+
