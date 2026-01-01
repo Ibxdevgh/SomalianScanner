@@ -1,4 +1,4 @@
-# SomalianScnner - Healthcare Provider Fraud Tracker
+# SomalianScanner - Healthcare Provider Fraud Tracker
 
 A public transparency platform for tracking healthcare provider fraud across the United States. This is a clone/recreation of [SomaliScan.com](https://somaliscan.com).
 
@@ -89,7 +89,7 @@ Providers should follow this structure:
 ## Customization
 
 ### Branding
-- Update logo in navbar (search for "SomalianScnner" in HTML files)
+- Update logo in navbar (search for "SomalianScanner" in HTML files)
 - Modify colors in `css/style.css` `:root` variables
 
 ### Adding States
